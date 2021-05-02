@@ -1,12 +1,13 @@
 ---
 title: "Bayesiana_prova2"
-author: "Bruno Alano"
-date: "5/1/2021"
+author: "Bruno Alano & Gustavo Utpott"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(plotly)
 ```
 
 ## Dados
@@ -33,14 +34,20 @@ Y  =  rnorm(mean = 0 + 1*X1 + (25/6)*X2 - (2/3)*X2*X1,n = n,sd = des.p)
 ```
 
 
-```{r}
-library(ggplot2)
+```{r, out.width="100%"}
 
-dados <- data.frame(Y,X1,X2)
-
-
-ggplot(dados)+
-  geom_point(mapping = aes(x = X1,y=Y,color=as.factor(X2)))
+dados <- data.frame(Y,X1,X2) %>%
+  mutate(X2_fator = factor(X2, labels = c("Espécie A","Espécie B")))
+  
+ggplotly(ggplot(dados)+
+  geom_point(mapping = aes(x = X1,y=Y,color=X2_fator)) +
+  scale_color_discrete("Espécie do tomateiro") +
+  labs(x = "Quantidade de água em Litros", y = "Quantidade em Kg de tomate")) %>%
+        layout(legend = list(
+          orientation = "v",
+          x = 0.01,
+          y = 0.95
+        ))
 
 ```
 
