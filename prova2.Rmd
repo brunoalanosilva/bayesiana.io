@@ -1,0 +1,46 @@
+---
+title: "Bayesiana_prova2"
+author: "Bruno Alano"
+date: "5/1/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Dados
+
+Um produtor de tomates decidiu realizar um estudo para comparar duas espécies de tomateiro, chamaremos de tomateiro A e tomateiro B, a região onde o agricultor planta os tomates tem períodos de seca, por esse motivo a quantidade de água usada tem que ser levada em conta quando quisermos comparar os tomateiros.
+No estudo foi plantado 400 tomateiros, sendo 200 de cada espécie e atribuidos diferentes quantidades de água em cada pé, ao final foi calculado quantos quilos cada pé de tomateiro produziu de tomates.  
+
+
+Y =  quantidade em KG produzidos de tomate
+
+X1 = quantidade de água em Litros em certo período fixo no tempo (valores variam de 2.5 até 10)
+
+X2 = espécie do tomateiro (0 = A ou 1 = B)
+
+
+```{r}
+n <- 400
+X1 <- runif(n,2.5,10)
+X2 <- rep(c(0,1),n/2)
+
+des.p <- 1
+
+Y  =  rnorm(mean = 0 + 1*X1 + (25/6)*X2 - (2/3)*X2*X1,n = n,sd = des.p)
+```
+
+
+```{r}
+library(ggplot2)
+
+dados <- data.frame(Y,X1,X2)
+
+
+ggplot(dados)+
+  geom_point(mapping = aes(x = X1,y=Y,color=as.factor(X2)))
+
+```
+
